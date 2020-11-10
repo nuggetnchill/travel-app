@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const requiredNumber = {
   type: Number,
-  require: true,
+  required: true,
 };
 
 const logEntrySchema = new Schema(
