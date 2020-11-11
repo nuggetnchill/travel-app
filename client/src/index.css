@@ -7,3 +7,16 @@ body {
   max-height: 100vh;
   overflow: hidden;
 }
+
+.marker {
+  height: 24px;
+  width: 24px;
+  transform: translate(
+    -50%,
+    -100%
+  ); /* this helps the marker to point directly where the coordinate is  */
+}
+
+.popup {
+  max-width: 300px;
+}
