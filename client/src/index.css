@@ -17,6 +17,24 @@ body {
   ); /* this helps the marker to point directly where the coordinate is  */
 }
 
+.marker.yellow {
+  fill: #f3b73e;
+}
+.marker.red {
+  fill: red;
+}
+
 .popup {
   max-width: 300px;
+  padding: 0.4rem;
+}
+
+.entry-form label,
+.entry-form input,
+.entry-form textarea,
+.entry-form button {
+  font-size: 1.3rem;
+  margin: 0.5rem 0;
+  display: block;
+  width: 100%;
 }
