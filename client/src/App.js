@@ -32,6 +32,7 @@ const App = () => {
       latitude,
       longitude,
     });
+    setShowPopup({});
   };
 
   return (
@@ -42,13 +43,10 @@ const App = () => {
       onViewportChange={setViewport}
       onDblClick={addMarkerPopup}
     >
+      <h2>Double click to add new location</h2>
       {logEntries.map((entry) => (
-        <>
-          <Marker
-            key={entry._id}
-            latitude={entry.latitude}
-            longitude={entry.longitude}
-          >
+        <React.Fragment key={entry._id}>
+          <Marker latitude={entry.latitude} longitude={entry.longitude}>
             <div onClick={() => setShowPopup({ [entry._id]: true })}>
               <svg
                 className='marker yellow'
@@ -86,14 +84,21 @@ const App = () => {
             >
               <div className='popup'>
                 <h3>{entry.title}</h3>
-                <p>{entry.comments}</p>
                 <small>
                   Visited on: {new Date(entry.visitDate).toLocaleDateString()}
                 </small>
+                {entry.rating != '0' && (
+                  <p>
+                    Rating:
+                    <strong> {entry.rating}</strong> out of 5
+                  </p>
+                )}
+                <p>{entry.comments}</p>
+                {entry.image && <img src={entry.image} alt={entry.title} />}
               </div>
             </Popup>
           ) : null}
-        </>
+        </React.Fragment>
       ))}
       {newEntry ? (
         <>
@@ -133,7 +138,13 @@ const App = () => {
             anchor='top'
           >
             <div className='popup'>
-              <LogEntryForm />
+              <LogEntryForm
+                onClose={() => {
+                  setNewEntry(null);
+                  getEntries();
+                }}
+                location={newEntry}
+              />
             </div>
           </Popup>
         </>

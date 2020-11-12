@@ -1,25 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const LogEntryForm = () => {
+import { createLogEntry } from './API';
+
+const LogEntryForm = ({ location, onClose }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      data.latitude = location.latitude;
+      data.longitude = location.longitude;
+      const created = await createLogEntry(data);
+      console.log(created);
+      onClose();
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+      setLoading(false);
+    }
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='entry-form'>
+      {error ? <h3 className='error'>{error}</h3> : null}
       <label htmlFor='title'>Title</label>
       <input name='title' required ref={register} />
+      <label htmlFor='rating'>
+        Rating{' '}
+        <span>
+          <select name='rating' ref={register}>
+            <option value='0'></option>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+            <option value='5'>5</option>
+          </select>
+        </span>
+      </label>
       <label htmlFor='comments'>Comments</label>
       <textarea name='comments' rows={3} ref={register}></textarea>
       <label htmlFor='description'>Description</label>
       <textarea name='description' rows={3} ref={register}></textarea>
-      <label htmlFor='image'>Image</label>
+      <label htmlFor='image'>Image URL</label>
       <input name='image' ref={register} />
       <label htmlFor='visitDate'>Visit Date</label>
       <input name='visitDate' type='date' required ref={register} />
-      <button>Add New Location</button>
+      <button disabled={loading}>
+        {loading ? 'Loading...' : 'Add New Location'}
+      </button>
     </form>
   );
 };

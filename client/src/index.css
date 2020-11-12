@@ -8,6 +8,11 @@ body {
   overflow: hidden;
 }
 
+h2 {
+  margin-left: 1rem;
+  color: #eeeeee95;
+}
+
 .marker {
   height: 24px;
   width: 24px;
@@ -25,8 +30,18 @@ body {
 }
 
 .popup {
+  z-index: 1;
   max-width: 300px;
   padding: 0.4rem;
+}
+
+.popup > * {
+  margin: 0.3rem;
+}
+
+.popup img {
+  height: 190px;
+  width: auto;
 }
 
 .entry-form label,
@@ -37,4 +52,21 @@ body {
   margin: 0.5rem 0;
   display: block;
   width: 100%;
+}
+
+.error {
+  color: red;
+}
+
+/* fix Marker showing on top of Popup */
+.overlays {
+  z-index: 1;
+}
+.mapboxgl-marker {
+  z-index: -1;
+}
+
+.mapboxgl-popup-close-button {
+  color: #c01f0a;
+  font-size: 2rem;
 }
